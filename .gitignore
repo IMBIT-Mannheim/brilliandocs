@@ -9,6 +9,7 @@ build
 .cache-loader
 
 # Misc
+.vscode
 .DS_Store
 .env
 .env.local
