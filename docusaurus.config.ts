@@ -112,6 +112,10 @@ const config: Config = {
               label: 'IMBIT-N3XT',
               to: 'projects/imbit-n3xt',
             },
+            {
+              label: 'IMBIT-PIXELS',
+              to: 'projects/imbit-n3xt/pixels',
+            },
           ],
         },
         {
@@ -141,6 +145,10 @@ const config: Config = {
               label: 'IMBIT-N3XT',
               href: 'https://imbit-n3xt.com',
             },
+            {
+              label: 'IMBIT-PIXELS',
+              href: 'https://pixels.imbit-n3xt.com',
+            },
           ],
         },
         {
@@ -151,8 +159,8 @@ const config: Config = {
               href: 'https://console.aws.amazon.com/console/home?nc2=h_ct&src=header-signin',
             },
             {
-              label: 'Bitwarden',
-              href: 'https://bitwarden.com',
+              label: 'Bitwarden Vault',
+              href: 'https://vault.bitwarden.eu/#/login',
             },
             {
               label: 'GitHub Organization',
