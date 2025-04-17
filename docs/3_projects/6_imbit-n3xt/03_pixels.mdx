@@ -19,4 +19,58 @@ This documentation page is currently under developement and will be availabe at 
 
 ## Introduction
 
-IMBIT-PIXELS was originally created by the IMBIT22B class. ...
+IMBIT-PIXELS was originally created by the IMBIT22B class. 
+
+Further deployment steps are done by the IMBIT22A class. 
+
+
+Key Development Guidelines
+
+Branching Strategy:
+For each new feature, create a separate branch.
+This promotes modular development and prevents conflicts.
+Once a feature is complete and tested, merge the branch into the DEV branch.
+Framework Adherence:
+The game is built using the "Kaplay" framework.
+All code changes must be consistent with Kaplay's conventions and best practices.
+Refer to the Kaplay documentation ( https://kaplayjs.com/) for guidance.
+File Restrictions:
+Do not modify vite.config.js. This file is crucial for building the game.
+File Overview
+
+kaboom.ctx.js:
+This file is specifically for adapting the game to different screen sizes.
+Changes here likely involve responsive design or scaling logic.
+constant.js:
+This file stores constants used throughout the game, such as:
+Dialog text
+Game settings
+Any values that might need to be easily changed
+index.html:
+This is the main HTML file that defines the structure of the game's web page.
+Modifications here would involve changes to the HTML elements displayed in the game.
+main.js:
+This file contains the core game logic and functions.
+Most of your feature development will likely occur in this file.
+utils.js:
+This file holds configuration settings that are separate from the Kaplay framework.
+It might include game balance parameters or custom settings.
+How to Apply These Guidelines
+
+Feature Branching:
+
+Before starting a new feature (e.g., "Inventory System," "New Enemy Type"), create a branch named feature/inventory-system or feature/new-enemy.
+Work exclusively within that branch.
+When the feature is complete and tested, merge it into the DEV branch.
+Kaplay Compliance:
+
+Always consult the Kaplay documentation to ensure your code is compatible with the framework.
+Use Kaplay's built-in functions and structures whenever possible.
+Avoid directly manipulating the DOM unless necessary and Kaplay doesn't provide a suitable alternative.
+File Management:
+
+Be mindful of which file you're editing.
+If you're changing game logic, it's probably main.js.
+If you're tweaking UI layout, it might be index.html or kaboom.ctx.js.
+If you're adding new text or configuration, consider constant.js or utils.js.
+Never edit vite.config.js.
