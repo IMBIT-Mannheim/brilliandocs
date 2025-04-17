@@ -24,7 +24,7 @@ IMBIT-PIXELS was originally created by the IMBIT22B class.
 Further deployment steps are done by the IMBIT22A class. 
 
 
-Key Development Guidelines
+## Key Development Guidelines
 
 Branching Strategy:
 For each new feature, create a separate branch.
@@ -36,7 +36,9 @@ All code changes must be consistent with Kaplay's conventions and best practices
 Refer to the Kaplay documentation ( https://kaplayjs.com/) for guidance.
 File Restrictions:
 Do not modify vite.config.js. This file is crucial for building the game.
-File Overview
+
+
+## File Overview
 
 kaboom.ctx.js:
 This file is specifically for adapting the game to different screen sizes.
@@ -57,17 +59,19 @@ This file holds configuration settings that are separate from the Kaplay framewo
 It might include game balance parameters or custom settings.
 How to Apply These Guidelines
 
-Feature Branching:
+## Feature Branching:
 
-Before starting a new feature (e.g., "Inventory System," "New Enemy Type"), create a branch named feature/inventory-system or feature/new-enemy.
+Before starting a new feature (e.g., "Inventory System"), create a branch named feature/inventory-system.
 Work exclusively within that branch.
 When the feature is complete and tested, merge it into the DEV branch.
-Kaplay Compliance:
+
+## Kaplay Compliance:
 
 Always consult the Kaplay documentation to ensure your code is compatible with the framework.
 Use Kaplay's built-in functions and structures whenever possible.
 Avoid directly manipulating the DOM unless necessary and Kaplay doesn't provide a suitable alternative.
-File Management:
+
+## File Management:
 
 Be mindful of which file you're editing.
 If you're changing game logic, it's probably main.js.
