@@ -170,11 +170,9 @@ if (dialogueSystem.inDialogue()) {
 }
 ```
 
-# Session State Management Documentation
+## Session State Management Documentation
 
 This document provides an overview of the session state management system implemented for the game. The session state management system tracks game settings, progress, and timestamps using a central `sessionState` object. It provides functions for saving/loading game progress to localStorage and managing unique session IDs via cookies.
-
-## Session State Structure
 
 The `sessionState` object contains the following main sections:
 
@@ -188,7 +186,7 @@ sessionState = {
 }
 ```
 
-### Settings
+#### Settings
 
 Tracks user preferences and game configuration:
 
@@ -201,7 +199,7 @@ Tracks user preferences and game configuration:
 | dogName | String | Name of the player's dog companion ("Bello" by default) |
 | introWatched | Boolean | Whether the intro sequence has been viewed |
 
-### Progress
+#### Progress
 
 Tracks the player's progress through the game:
 
@@ -212,7 +210,7 @@ Tracks the player's progress through the game:
 | scoreInMinigame | Number | Last score earned in a minigame |
 | unlockedMaps | Array | List of map areas the player has unlocked |
 
-### Minigames
+#### Minigames
 
 Stores scores for individual minigames:
 
@@ -226,7 +224,7 @@ minigames: {
 }
 ```
 
-### Timestamps
+#### Timestamps
 
 Tracks timing information:
 
@@ -234,8 +232,6 @@ Tracks timing information:
 |----------|------|-------------|
 | sessionStart | Number | Timestamp when the session began |
 | lastSave | Number | Timestamp of the most recent save |
-
-## Core Functions
 
 ### Basic State Management
 
@@ -310,20 +306,12 @@ serializeSessionState();
 deserializeSessionState(jsonString);
 ```
 
-## Debugging Features
-
-The session state system includes built-in debug logging:
-
-- Save operations log the session ID and a snapshot of saved data
-- Load operations confirm successful loading with session information
-- Errors during save/load are reported to the console
-
-## Implementation Notes
+### Implementation Notes
 - Session IDs persist for 365 days via cookies
 - The save data uses a "gameSave" key in localStorage
 - When loading a save, the system performs validation before applying changes
 
-## Best Practices
+### Best Practices
 
 1. Always call `ensureSessionId()` during game initialization
 2. Save the game after important progress milestones
