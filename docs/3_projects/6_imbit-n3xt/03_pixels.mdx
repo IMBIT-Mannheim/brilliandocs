@@ -170,4 +170,161 @@ if (dialogueSystem.inDialogue()) {
 }
 ```
 
+# Session State Management Documentation
 
+This document provides an overview of the session state management system implemented for the game. The session state management system tracks game settings, progress, and timestamps using a central `sessionState` object. It provides functions for saving/loading game progress to localStorage and managing unique session IDs via cookies.
+
+## Session State Structure
+
+The `sessionState` object contains the following main sections:
+
+```javascript
+sessionState = {
+    sessionId: null,              // Unique identifier for the play session
+    settings: { ... },            // User preferences and game settings
+    progress: { ... },            // Game progress tracking
+    minigames: { ... },           // Minigame scores and statistics
+    timestamps: { ... }           // Timing information
+}
+```
+
+### Settings
+
+Tracks user preferences and game configuration:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| musicVolume | Number | Background music volume (0.0-1.0) |
+| soundEffectsVolume | Number | Sound effects volume (0.0-1.0) |
+| spawnpoint | String/null | Player starting location |
+| character | String | Selected character model ("character-male" by default) |
+| dogName | String | Name of the player's dog companion ("Bello" by default) |
+| introWatched | Boolean | Whether the intro sequence has been viewed |
+
+### Progress
+
+Tracks the player's progress through the game:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| answeredDialogues | Array | List of dialogue IDs that have been completed |
+| score | Number | Points earned from dialogues |
+| scoreInMinigame | Number | Last score earned in a minigame |
+| unlockedMaps | Array | List of map areas the player has unlocked |
+
+### Minigames
+
+Stores scores for individual minigames:
+
+```javascript
+minigames: {
+    cureMinigame: {
+        bestScore: 0,
+        lastScore: 0,
+    },
+    // Additional minigames can be added here
+}
+```
+
+### Timestamps
+
+Tracks timing information:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| sessionStart | Number | Timestamp when the session began |
+| lastSave | Number | Timestamp of the most recent save |
+
+## Core Functions
+
+### Basic State Management
+
+```javascript
+// Set a top-level property in the session state
+setSessionState(key, value);
+
+// Get a top-level property from the session state
+getSessionState(key);
+```
+
+Example usage:
+```javascript
+import { setSessionState, getSessionState } from './sessionState.js';
+
+// Update sound effects volume
+setSessionState('settings', {
+    ...getSessionState('settings'),
+    soundEffectsVolume: 0.7
+});
+
+// Get current score
+const currentScore = getSessionState('progress').score;
+```
+
+### Save and Load
+
+```javascript
+// Save the current game state to localStorage
+saveGame();
+
+// Load a saved game state from localStorage
+loadGame();
+```
+
+Example usage:
+```javascript
+import { saveGame, loadGame } from './sessionState.js';
+
+// Save game when player completes a level
+function onLevelComplete() {
+    // Update progress
+    saveGame();
+}
+
+
+### Session Identification
+
+```javascript
+// Ensure the game has a valid session ID (creates one if needed)
+ensureSessionId();
+```
+
+Example usage:
+```javascript
+import { ensureSessionId } from './sessionState.js';
+
+// Call at game initialization
+function initGame() {
+    ensureSessionId();
+    // Other initialization...
+}
+```
+
+### State Serialization
+
+```javascript
+// Convert session state to a JSON string
+serializeSessionState();
+
+// Update session state from a JSON string
+deserializeSessionState(jsonString);
+```
+
+## Debugging Features
+
+The session state system includes built-in debug logging:
+
+- Save operations log the session ID and a snapshot of saved data
+- Load operations confirm successful loading with session information
+- Errors during save/load are reported to the console
+
+## Implementation Notes
+- Session IDs persist for 365 days via cookies
+- The save data uses a "gameSave" key in localStorage
+- When loading a save, the system performs validation before applying changes
+
+## Best Practices
+
+1. Always call `ensureSessionId()` during game initialization
+2. Save the game after important progress milestones
+3. Use `getSessionState()` and `setSessionState()` instead of modifying `sessionState` directly
