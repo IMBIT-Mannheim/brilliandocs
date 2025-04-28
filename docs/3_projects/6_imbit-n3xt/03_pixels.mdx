@@ -78,3 +78,96 @@ If you're changing game logic, it's probably main.js.
 If you're tweaking UI layout, it might be index.html or kaboom.ctx.js.
 If you're adding new text or configuration, consider constant.js or utils.js.
 Never edit vite.config.js.
+
+
+
+## Dialogue System Documentation
+The `Dialogue` class manages in-game dialogues, including text display with typing effects and multiple-choice questions. The system displays dialogue boxes with text and optional answers for the player to select.
+
+### Initializing the Dialogue System
+
+This is already implemented in the main.js class. There should only exist one dialogue object at the same time.
+```javascript
+// Create a new dialogue instance
+const dialogue = new Dialogue();
+```
+
+### Displaying Dialogues
+You can display a single dialogue or a sequence of dialogues:
+
+```javascript
+// Single dialogue
+dialogue.display({
+    title: "Character Name",
+    text: "Hello, welcome to the game!",
+    answers: [],
+    correctAnswer: 0
+}, onDialogueComplete);
+
+// Multiple dialogues in sequence
+dialogue.display([
+    {
+        title: "Guide",
+        text: "First message in sequence.",
+        answers: [],
+        correctAnswer: 0
+    },
+    {
+        title: "Guide",
+        text: "Second message will display after the first.",
+        answers: [],
+        correctAnswer: 0
+    }
+], onDialogueComplete);
+```
+
+### Adding Quiz Questions
+
+Dialogues can include multiple-choice questions:
+
+```javascript
+dialogue.display({
+    id: "quiz_1",  // Unique ID for score tracking
+    title: "Quiz",
+    text: "What is the capital of France?",
+    answers: ["London", "Paris", "Berlin", "Madrid"],
+    correctAnswer: 2,  // Paris (index+1)
+    correctText: "Correct! Paris is the capital of France.",
+    wrongText: "Sorry, that's incorrect. The capital of France is Paris."
+}, onDialogueComplete);
+```
+
+### Handling Dialogue Completion
+
+The callback function is executed when all dialogues in a sequence are complete. It can be used to run specific code or trigger actions after the user has seen a given dialogue:
+
+```javascript
+function onDialogueComplete() {
+    console.log("Dialogue sequence completed");
+    // Resume game or trigger next action
+}
+```
+
+
+### Question Button Click Listener
+
+You can listen for button clicks regardless of correctness. This is useful for triggering specific actions based on the selected response:
+
+```javascript
+dialogueSystem.setQuestionButtonClickListener((buttonNumber) => {
+    console.log(`Player clicked button ${buttonNumber}`);
+    // Perform custom actions based on selection
+});
+```
+
+### Checking Dialogue State
+This is useful to check if currently a dialogue is presented to the user.
+
+```javascript
+if (dialogueSystem.inDialogue()) {
+    // Player is currently in a dialogue
+    // Game might want to pause other systems
+}
+```
+
+
