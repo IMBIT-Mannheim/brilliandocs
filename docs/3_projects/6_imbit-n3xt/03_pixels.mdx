@@ -19,4 +19,300 @@ This documentation page is currently under developement and will be availabe at 
 
 ## Introduction
 
-IMBIT-PIXELS was originally created by the IMBIT22B class. ...
+IMBIT-PIXELS was originally created by the IMBIT22B class. 
+
+Further deployment steps are done by the IMBIT22A class. 
+
+
+## Key Development Guidelines
+
+Branching Strategy:
+For each new feature, create a separate branch.
+This promotes modular development and prevents conflicts.
+Once a feature is complete and tested, merge the branch into the DEV branch.
+Framework Adherence:
+The game is built using the "Kaplay" framework.
+All code changes must be consistent with Kaplay's conventions and best practices.
+Refer to the Kaplay documentation ( https://kaplayjs.com/) for guidance.
+File Restrictions:
+Do not modify vite.config.js. This file is crucial for building the game.
+
+
+## File Overview
+
+kaboom.ctx.js:
+This file is specifically for adapting the game to different screen sizes.
+Changes here likely involve responsive design or scaling logic.
+constant.js:
+This file stores constants used throughout the game, such as:
+Dialog text
+Game settings
+Any values that might need to be easily changed
+index.html:
+This is the main HTML file that defines the structure of the game's web page.
+Modifications here would involve changes to the HTML elements displayed in the game.
+main.js:
+This file contains the core game logic and functions.
+Most of your feature development will likely occur in this file.
+utils.js:
+This file holds configuration settings that are separate from the Kaplay framework.
+It might include game balance parameters or custom settings.
+How to Apply These Guidelines
+
+## Feature Branching:
+
+Before starting a new feature (e.g., "Inventory System"), create a branch named feature/inventory-system.
+Work exclusively within that branch.
+When the feature is complete and tested, merge it into the DEV branch.
+
+## Kaplay Compliance:
+
+Always consult the Kaplay documentation to ensure your code is compatible with the framework.
+Use Kaplay's built-in functions and structures whenever possible.
+Avoid directly manipulating the DOM unless necessary and Kaplay doesn't provide a suitable alternative.
+
+## File Management:
+
+Be mindful of which file you're editing.
+If you're changing game logic, it's probably main.js.
+If you're tweaking UI layout, it might be index.html or kaboom.ctx.js.
+If you're adding new text or configuration, consider constant.js or utils.js.
+Never edit vite.config.js.
+
+
+
+## Dialogue System Documentation
+The `Dialogue` class manages in-game dialogues, including text display with typing effects and multiple-choice questions. The system displays dialogue boxes with text and optional answers for the player to select.
+
+### Initializing the Dialogue System
+
+This is already implemented in the main.js class. There should only exist one dialogue object at the same time.
+```javascript
+// Create a new dialogue instance
+const dialogue = new Dialogue();
+```
+
+### Displaying Dialogues
+You can display a single dialogue or a sequence of dialogues:
+
+```javascript
+// Single dialogue
+dialogue.display({
+    title: "Character Name",
+    text: "Hello, welcome to the game!",
+    answers: [],
+    correctAnswer: 0
+}, onDialogueComplete);
+
+// Multiple dialogues in sequence
+dialogue.display([
+    {
+        title: "Guide",
+        text: "First message in sequence.",
+        answers: [],
+        correctAnswer: 0
+    },
+    {
+        title: "Guide",
+        text: "Second message will display after the first.",
+        answers: [],
+        correctAnswer: 0
+    }
+], onDialogueComplete);
+```
+
+### Adding Quiz Questions
+
+Dialogues can include multiple-choice questions:
+
+```javascript
+dialogue.display({
+    id: "quiz_1",  // Unique ID for score tracking
+    title: "Quiz",
+    text: "What is the capital of France?",
+    answers: ["London", "Paris", "Berlin", "Madrid"],
+    correctAnswer: 2,  // Paris (index+1)
+    correctText: "Correct! Paris is the capital of France.",
+    wrongText: "Sorry, that's incorrect. The capital of France is Paris."
+}, onDialogueComplete);
+```
+
+### Handling Dialogue Completion
+
+The callback function is executed when all dialogues in a sequence are complete. It can be used to run specific code or trigger actions after the user has seen a given dialogue:
+
+```javascript
+function onDialogueComplete() {
+    console.log("Dialogue sequence completed");
+    // Resume game or trigger next action
+}
+```
+
+
+### Question Button Click Listener
+
+You can listen for button clicks regardless of correctness. This is useful for triggering specific actions based on the selected response:
+
+```javascript
+dialogueSystem.setQuestionButtonClickListener((buttonNumber) => {
+    console.log(`Player clicked button ${buttonNumber}`);
+    // Perform custom actions based on selection
+});
+```
+
+### Checking Dialogue State
+This is useful to check if currently a dialogue is presented to the user.
+
+```javascript
+if (dialogueSystem.inDialogue()) {
+    // Player is currently in a dialogue
+    // Game might want to pause other systems
+}
+```
+
+## Session State Management Documentation
+
+This document provides an overview of the session state management system implemented for the game. The session state management system tracks game settings, progress, and timestamps using a central `sessionState` object. It provides functions for saving/loading game progress to localStorage and managing unique session IDs via cookies.
+
+The `sessionState` object contains the following main sections:
+
+```javascript
+sessionState = {
+    sessionId: null,              // Unique identifier for the play session
+    settings: { ... },            // User preferences and game settings
+    progress: { ... },            // Game progress tracking
+    minigames: { ... },           // Minigame scores and statistics
+    timestamps: { ... }           // Timing information
+}
+```
+
+#### Settings
+
+Tracks user preferences and game configuration:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| musicVolume | Number | Background music volume (0.0-1.0) |
+| soundEffectsVolume | Number | Sound effects volume (0.0-1.0) |
+| spawnpoint | String/null | Player starting location |
+| character | String | Selected character model ("character-male" by default) |
+| dogName | String | Name of the player's dog companion ("Bello" by default) |
+| introWatched | Boolean | Whether the intro sequence has been viewed |
+
+#### Progress
+
+Tracks the player's progress through the game:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| answeredDialogues | Array | List of dialogue IDs that have been completed |
+| score | Number | Points earned from dialogues |
+| scoreInMinigame | Number | Last score earned in a minigame |
+| unlockedMaps | Array | List of map areas the player has unlocked |
+
+#### Minigames
+
+Stores scores for individual minigames:
+
+```javascript
+minigames: {
+    cureMinigame: {
+        bestScore: 0,
+        lastScore: 0,
+    },
+    // Additional minigames can be added here
+}
+```
+
+#### Timestamps
+
+Tracks timing information:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| sessionStart | Number | Timestamp when the session began |
+| lastSave | Number | Timestamp of the most recent save |
+
+### Basic State Management
+
+```javascript
+// Set a top-level property in the session state
+setSessionState(key, value);
+
+// Get a top-level property from the session state
+getSessionState(key);
+```
+
+Example usage:
+```javascript
+import { setSessionState, getSessionState } from './sessionState.js';
+
+// Update sound effects volume
+setSessionState('settings', {
+    ...getSessionState('settings'),
+    soundEffectsVolume: 0.7
+});
+
+// Get current score
+const currentScore = getSessionState('progress').score;
+```
+
+### Save and Load
+
+```javascript
+// Save the current game state to localStorage
+saveGame();
+
+// Load a saved game state from localStorage
+loadGame();
+```
+
+Example usage:
+```javascript
+import { saveGame, loadGame } from './sessionState.js';
+
+// Save game when player completes a level
+function onLevelComplete() {
+    // Update progress
+    saveGame();
+}
+
+
+### Session Identification
+
+```javascript
+// Ensure the game has a valid session ID (creates one if needed)
+ensureSessionId();
+```
+
+Example usage:
+```javascript
+import { ensureSessionId } from './sessionState.js';
+
+// Call at game initialization
+function initGame() {
+    ensureSessionId();
+    // Other initialization...
+}
+```
+
+### State Serialization
+
+```javascript
+// Convert session state to a JSON string
+serializeSessionState();
+
+// Update session state from a JSON string
+deserializeSessionState(jsonString);
+```
+
+### Implementation Notes
+- Session IDs persist for 365 days via cookies
+- The save data uses a "gameSave" key in localStorage
+- When loading a save, the system performs validation before applying changes
+
+### Best Practices
+
+1. Always call `ensureSessionId()` during game initialization
+2. Save the game after important progress milestones
+3. Use `getSessionState()` and `setSessionState()` instead of modifying `sessionState` directly
