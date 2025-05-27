@@ -8,18 +8,23 @@ import TabItem from '@theme/TabItem';
 
 ## Domains and DNS Configuration
 
-Below is a quick reference table for all our domains, which are registered and managed by AWS Route 53.
+Below is a quick reference table for all our domains, which are registered and managed by AWS Route 53 or Cloudflare.  
+
+:::info
+We are currently in the process of switching DNS (and maybe domain registration) over to Cloudflare.  
+This provides improvements in costs and ease of use.
+:::
 
 ### Domain List
 
-| Applications     | Domain                        |
-|-----------------|-------------------------------|
-| BrillianIDEAS, BrillianDOCS, Wordpress Page, AWS SES  | [brillianideas.com](https://brillianideas.com)   |
-| BrillianQUIZ    | [brillianquiz.com](https://brillianquiz.com)     |
-| BrillianCRM     | [brilliancrm.com](https://brilliancrm.com)       |
-| BrillianICM     | [brillianicm.com](https://brillianicm.com)       |
-| IMBIT-N3XT      | [imbit-n3xt.com](https://imbit-n3xt.com)         |
-| Unused | [digital-learning-imbit.com](https://digital-learning-imbit.com) |
+| Applications     | Domain                                                           | DNS        |Registration |
+|------------------|------------------------------------------------------------------|------------|-------------|
+| BrillianIDEAS, BrillianDOCS, Wordpress Page, AWS SES  | [brillianideas.com](https://brillianideas.com) | Cloudflare | AWS         |
+| BrillianQUIZ     | [brillianquiz.com](https://brillianquiz.com)                     | AWS        | AWS         |
+| BrillianCRM      | [brilliancrm.com](https://brilliancrm.com)                       | AWS        | AWS         |
+| BrillianICM      | [brillianicm.com](https://brillianicm.com)                       | AWS        | AWS         |
+| IMBIT-N3XT       | [imbit-n3xt.com](https://imbit-n3xt.com)                         | AWS        | AWS         |
+| Unused           | [digital-learning-imbit.com](https://digital-learning-imbit.com) | Cloudflare | AWS         |
 
 ### DNS Settings by Domain
 
@@ -34,30 +39,21 @@ Below is a quick reference table for all our domains, which are registered and m
   ]}>
 
 <TabItem value="brillianideas">
-| Name                                                             | Type  | Alias | Value                                               | Notes                                        |
-|------------------------------------------------------------------|-------|-------|-----------------------------------------------------|----------------------------------------------|
-| brillianideas.com                                                | A     | Yes   | d1py45h4yu2kpc.cloudfront.net.                      | Maps domain to the IP of the CloudFront distribution |
-| docs.brillianideas.com                                           | A     | Yes   | d24a7q0jdds7kb.cloudfront.net.                      | Maps subdomain to the IP of the CloudFront distribution for BrillianDOCS |
-| imbit.brillianideas.com                                          | A     | No    | 3.66.131.100                                        | Maps subdomain to the IP address of the Wordpress page (actually managed through the Lightsail DNS!) |
-| www.brillianideas.com                                            | CNAME | No    | brillianideas.com                                   | Redirects www requests to root domain |
-| www.docs.brillianideas.com                                       | CNAME | No    | www.brillianideas.com                               | Redirects www requests to root domain |
-| _424a8a3a059b306187fb0c3004383621.brillianideas.com              | CNAME | No    | _cb31acd4fa6703cf7c048816d909672d.tljzshvwok.acm-validations.aws.| Domain verification record for AWS Certificate Manager |
-| 66njepsccuxjo7tcmr34nkxzlnnvgbsv._domainkey.brillianideas.com    | CNAME | No    | 66njepsccuxjo7tcmr34nkxzlnnvgbsv.dkim.amazonses.com | DKIM record for AmazonSES |
-| wouurah7of3osexererygt7s4adxzbvv._domainkey.brillianideas.com    | CNAME | No    | wouurah7of3osexererygt7s4adxzbvv.dkim.amazonses.com| DKIM record for AmazonSES |
-| zom55upkpyudmnrgsx3grqnrhk3fpvoe._domainkey.brillianideas.com    | CNAME | No    | zom55upkpyudmnrgsx3grqnrhk3fpvoe.dkim.amazonses.com| DKIM record for AmazonSES |
-| _4591ec5b3f6a433f16411f21c8c7c781.docs.brillianideas.com         | CNAME | No    | _318650309665af01929b62bffb5f6c97.sdgjtdhdhz.acm-validations.aws. | Domain verification record for AWS Certificate |
-| _5d48c25767e3a69d7958afe924b18bd2.www.docs.brillianideas.com     | CNAME | No    | _53ea2ae8d268386502aec7d5aea89d64.sdgjtdhdhz.acm-validations.aws. | Domain verification record for AWS Certificate |
-| _ee875fa9e11c65364b8e30391ef2839a.www.brillianideas.com          | CNAME | No    | _5b611db584806496551738f175d5c772.tljzshvwok.acm-validations.aws. | Domain verification record for AWS Certificate |
-| mail.brillianideas.com                                           | MX    | No    | 10 feedback-smtp.eu-west-1.amazonses.com            | Mail exchange record for AWS SES              |
-| brillianideas.com                                                | NS    | No    | ns-1607.awsdns-08.co.uk.                            | Name server record                           |
-| brillianideas.com                                                | NS    | No    | ns-1085.awsdns-07.org.                              | Name server record                           |
-| brillianideas.com                                                | NS    | No    | ns-359.awsdns-44.com.                               | Name server record                           |
-| brillianideas.com                                                | NS    | No    | ns-718.awsdns-25.net.                               | Name server record                           |
-| brillianideas.com                                                | SOA   | No    | ns-1607.awsdns-08.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400 | Start of authority record                    |
-| _amazonses.brillianideas.com                                     | TXT   | No    | "Xjwp+BoUJhZqd/wNcqZ9azCXu/zqeqbS8bH27zMy8aE="     | TXT record for Amazon SES                    |
-| _github-pages-challenge-imbit-mannheim.docs.brillianideas.com    | TXT   | No    | "cdbb5a3754bb98d49fb2233f3829ab"                    | GitHub Pages DNS challenge                   |
-| mail.brillianideas.com                                           | TXT   | No    | "v=spf1 include:amazonses.com ~all"                 | SPF record for Amazon SES                    |
-| _dmarc.mail.brillianideas.com                                    | TXT   | No    | "v=DMARC1;p=quarantine;pct=100;fo=1"               | DMARC quarantine record for email            |
+| Name                                                             | Type  | Value                                               | Notes                      |
+|------------------------------------------------------------------|-------|-----------------------------------------------------|----------------------------|
+| brillianideas.com                                                | A     | 185.199.111.153                                     | GitHub Pages site          |
+| brillianideas.com                                                | A     | 185.199.110.153                                     | GitHub Pages site          |
+| brillianideas.com                                                | A     | 185.199.109.153                                     | GitHub Pages site          |
+| brillianideas.com                                                | A     | 185.199.108.153                                     | GitHub Pages site          |
+| imbit.brillianideas.com                                          | A     | 3.66.131.100                                        | Wordpress page             |
+| brillianideas.com                                                | AAAA  | 2606:50c0:8003::153                                 | GitHub Pages site          |
+| brillianideas.com                                                | AAAA  | 2606:50c0:8002::153                                 | GitHub Pages site          |
+| brillianideas.com                                                | AAAA  | 2606:50c0:8001::153                                 | GitHub Pages site          |
+| brillianideas.com                                                | AAAA  | 2606:50c0:8000::153                                 | GitHub Pages site          |
+| docs.brillianideas.com                                           | CNAME | imbit-mannheim.github.io                            | GitHub Pages site          |
+| www.brillianideas.com                                            | CNAME | imbit-mannheim.github.io                            | GitHub Pages site          |
+| _github-pages-challenge-imbit-mannheim.brillianideas.com         | TXT   | "d4b01c7a5921fe5112bbba33a81e36"                    | GitHub Pages DNS challenge |
+| _github-pages-challenge-imbit-mannheim.docs.brillianideas.com    | TXT   | "cdbb5a3754bb98d49fb2233f3829ab"                    | GitHub Pages DNS challenge |
 
 </TabItem>
 

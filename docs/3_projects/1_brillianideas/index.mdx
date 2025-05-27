@@ -3,6 +3,10 @@ id: brillianideas
 title: BrillianIDEAS
 ---
 
+:::caution
+The BrillianIDEAS repository is publicly accessible. Take special care not to include sensitive information.
+:::
+
 ## Introduction
 The BrillianIDEAS platform, initiated as a project at DHBW Mannheim, serves as a resource for information pertaining to the IMBIT course program. Launched in 2017, it has undergone continuous development and refinement, reaching its current state in 2022.
 Additional historical context and details about the project's evolution can be found on the [Impressum page](https://brillianideas.com/index.html#impressum).
@@ -11,11 +15,11 @@ Additional historical context and details about the project's evolution can be f
 ## Quick Sheet
 | Name      | URL           | Repository                  | Tech Stack | Database | CPU Platform | Hosting Location    |
 |-----------|---------------|----------------------------|------------|----------|--------------|------------|
-| BrillianIDEAS | https://brillianideas.com | https://github.com/imbit-mannheim/brillianideas | Apache 2.4.59, jQuery 3.3.1, jQuery Easy UI 1.5.1, jQuery Mobile 1.4.5 | N/A  | ARM64         | AWS |
+| BrillianIDEAS | https://brillianideas.com | https://github.com/IMBIT-Mannheim/brillianideas.com | Apache 2.4.59, jQuery 3.3.1, jQuery Easy UI 1.5.1, jQuery Mobile 1.4.5 | N/A  | N/A         | Github Pages |
 
 
 ## Features
-- **Server**: A combination of classic HTML enhanced with CSS and Javascrip,t hosted by Apache.
+- **Server**: A combination of classic HTML enhanced with CSS and Javascript hosted on Github Pages.
 - **Frontend Frameworks**: Integration of jQuery, jQuery Easy UI, and jQuery Mobile to construct the interface.
 - **Responsive Design**: Tailored to adapt seamlessly across a variety of screen sizes and devices.
 - **Interactivity**: Features dynamic components such as accordion menus and modal windows.
@@ -35,7 +39,7 @@ Most of the content is located in the `src/index.html` file, and newer content i
 | Selbsttest                    | [https://brillianideas.com/content/quiz.html](https://brillianideas.com/content/quiz.html) | Self-assessment to gauge how 'dual' you are.              |
 
 ## Starting the Application
-Before initiating the platform, it is essential to consult the [Contributing Guide](/getting-started/contributing) for best practices. Once the repository is cloned, execute `docker-compose up -d` to start the Apache container that launches BrillianIDEAS at [http://localhost:8080](http://localhost:8080).
+As this is a simple html file, there is no application to start. Just browse the local html files with your browser or serve them with a VSCode extention like [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).  
 
 ## Updating
 The absence of npm necessitates manual updates. Compounding this challenge is the end-of-life status of jQuery Mobile, whose final release was in October 2014, and its incompatibility with newer versions of jQuery. Instead of updating this application, it is advisable to consider a transition to a modern technology stack, such as done with [IMBIT-N3XT](imbit-n3xt).
@@ -45,4 +49,4 @@ Some other documents are located in the GitHub `.github-private` repository. The
 The old BrillianIdeas documentation can be found [here](https://github.com/IMBIT-Mannheim/.github-private/blob/main/profile/non-technical/Dokumentation%20brillianIDEAS_2022.pdf) and everything related to corporate design can be found [here](https://github.com/IMBIT-Mannheim/.github-private/tree/main/profile/non-technical/corporateDesign). Please note that their content could be outdated.
 
 ## Known Issues and Pending Tasks
-Can be found inside the [Repositories Issues](https://github.com/IMBIT-Mannheim/brillianideas/issues) section.
+Can be found inside the old [Repositories Issues](https://github.com/IMBIT-Mannheim/brillianideas.com-AWS/issues) section.
